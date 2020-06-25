@@ -1,12 +1,14 @@
 var random = ['ROCK', 'PAPER', 'SCISSORS'];
 var userPlay;
 
-document.onload = userPrompt();
+document.onload = loadGame();
 
 function promptUser() {
-  var userPrompt = prompt("ROCK, PAPER or SCISSORS, tyoe your choice in the box below!");
-  (userPrompt !== null ? userPrompt : "").toUpperCase()
-  game();
+  console.log("@prompt")
+  var userPrompt = prompt("ROCK, PAPER or SCISSORS, type your choice in the box below!");
+  userPlay = userPrompt !== null ? userPrompt : "";
+  userPlay = userPlay.toUpperCase();
+  console.log("userPlay: ", userPlay, "userPrompt: ", userPrompt);
 }
   // if (userPrompt === null) {
   //   userPrompt = "";
@@ -33,35 +35,37 @@ function playRPS(arr) {
   var computer = arr[0];
   user = userPlay == "ROCK" || userPlay == "PAPER" || userPlay == "SCISSORS" ? userPlay : arr[1];
   // user: manual input or randomly generated
-  //console.log("u", user, "c", computer);
-  message = computer === user ? `TIE! Both were ${user}`
+  console.log("u", user, "c", computer);
+  message = computer === user ? `TIE! Both of you were ${user}!`
   : user === 'ROCK' && computer === 'SCISSORS' || user === 'PAPER' && computer === 'ROCK' ||
     user === 'SCISSORS' && computer === 'PAPER' ? 
-   `User wins! ${user} beats ${computer}`
-    : `Computer wins! ${computer} beats ${user}`;
+   `User wins! ${user} beats ${computer}!`
+    : `Computer wins! ${computer} beats ${user}!`;
   //console.log(message.includes('User'));
   console.log("message = ", message);
   return message;
 }
 
-function game() {
+function loadGame() {
   console.log("@ game");
   var rounds = [1, 2, 3, 4, 5];
   var userWins = 0;
   var computerWins = 0;
   var gameMessage = "";
   var computerRandom;
-     for (var i = 0; i < rounds.length; i++) {
-       gameMessage = playRPS(computerPlay(random))
+  for (var i = 0; i < rounds.length; i++) {
+    promptUser();
+    gameMessage = playRPS(computerPlay(random));
       //  computerRandom = computerPlay(random);
       //  gameMessage = playRPS(computerRandom, userInput);
-       console.log("gameMessage: ", !gameMessage.includes("TIE"), gameMessage.includes("User"));
-       if (!gameMessage.includes("TIE")) {        
-         gameMessage.includes("User") ? userWins++ : computerWins ++;
-       };
-     };
-     console.log(userWins, computerWins);
-    checkForDraw(userWins, computerWins);
+    console.log("gameMessage: ", !gameMessage.includes("TIE"), gameMessage.includes("User"));
+    if (!gameMessage.includes("TIE")) {      
+      gameMessage.includes("User") ? userWins++ : computerWins ++;
+    };
+    alert(`${gameMessage} score: USER ${userWins}pts vs COMPUTER ${computerWins}pts`);
+  };
+  console.log(userWins, computerWins);
+  checkForDraw(userWins, computerWins);
 }
 
 function checkForDraw(num1, num2) {
